@@ -1,0 +1,7 @@
+@main("Add new project") {
+<a class="btn btn-primary" role="button" href="@{routes.ProjectController.listProjects}">Back</a>
+<form action="/projects/create" method="POST">
+    <input name="name" type="text" placeholder="Enter project name" required />
+    <input type="submit"/>
+</form>
+}

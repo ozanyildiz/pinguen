@@ -1,0 +1,17 @@
+@(projects: Seq[Project])
+
+@main("Projects") {
+<a class="btn btn-primary" role="button" href="@{routes.ProjectController.showCreateProjectFormView}">Add new project</a>
+<table class="table table-hover">
+    <tr>
+        <td>Name</td>
+        <td>Delete</td>
+    </tr>
+    @for(project <- projects){
+    <tr>
+        <td><a href="@{routes.UrlController.listUrls(project.id)}">@project.name</a></td>
+        <td><a href="@{routes.ProjectController.deleteProject(project.id)}">X</a></td>
+    </tr>
+    }
+</table>
+}

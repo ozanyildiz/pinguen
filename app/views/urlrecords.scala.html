@@ -1,0 +1,19 @@
+@(projectId: Long, urlId: Long, urlRecords: Seq[UrlRecord])
+
+@main("Url records") {
+<a class="btn btn-primary" role="button" href="@{routes.UrlController.listUrls(projectId)}">Back</a>
+<table class="table table-hover">
+    <tr>
+        <td>Response Time</td>
+        <td>Created At</td>
+        <td>Status</td>
+    </tr>
+    @for(urlRecord <- urlRecords) {
+    <tr>
+        <td>@urlRecord.responseTime</td>
+        <td>@urlRecord.createdAt</td>
+        <td>@urlRecord.status</td>
+    </tr>
+    }
+</table>
+}

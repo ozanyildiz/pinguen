@@ -1,0 +1,13 @@
+GET     /                                   controllers.ProjectController.listProjects
+POST    /projects/create                    controllers.ProjectController.insertProject
+GET     /projects/create                    controllers.ProjectController.showCreateProjectFormView
+GET     /projects/delete/:projectId         controllers.ProjectController.deleteProject(projectId: Long)
+GET     /projects/:projectId                controllers.UrlController.listUrls(projectId: Long)
+GET     /projects/:projectId/urls/create    controllers.UrlController.showCreateUrlFormView(projectId: Long)
+POST    /projects/:projectId/urls/create    controllers.UrlController.insertUrl(projectId: Long)
+GET     /projects/:projectId/urls/fetch     controllers.UrlController.fetchUrls(projectId: Long)
+GET     /projects/:projectId/urls/:urlId    controllers.UrlController.listUrlRecords(projectId: Long, urlId: Long)
+GET     /projects/:projectId/urls/delete/:urlId    controllers.UrlController.deleteUrl(projectId: Long, urlId: Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
