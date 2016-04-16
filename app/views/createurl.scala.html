@@ -1,10 +1,10 @@
-@(projectId: Long)
+@(urlForm: Form[UrlFormData], projectId: Long)(implicit messages: Messages)
 
 @main("Add new url") {
-<a class="btn btn-primary" role="button" href="@{routes.UrlController.listUrls(projectId)}">Back</a>
-<form action="@{routes.UrlController.insertUrl(projectId)}" method="POST">
-    <input name="name" type="text" placeholder="Enter url name" required />
-    <input name="address" type="url" placeholder="Enter url address" required />
-    <input type="submit"/>
-</form>
+    <a class="btn btn-primary" role="button" href="@{routes.UrlController.listUrls(projectId)}">Back</a>
+    @helper.form(action = routes.UrlController.insertUrl(projectId)) {
+        @helper.inputText(urlForm("name"))
+        @helper.inputText(urlForm("address"))
+        <input type="submit"/>
+    }
 }

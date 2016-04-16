@@ -6,16 +6,16 @@ import dao._
 import models._
 import play.api.data._
 import play.api.data.Forms._
+import play.api.i18n.I18nSupport
+import play.api.i18n.MessagesApi
 import play.api.mvc.{Action, Controller}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-class ProjectController @Inject() (projectDao: ProjectDao) extends Controller {
-
-  case class ProjectFormData(name: String)
+class ProjectController @Inject() (val messagesApi: MessagesApi, projectDao: ProjectDao) extends Controller with I18nSupport {
 
   val projectForm = Form(
     mapping(
-      "name" -> text()
+      "name" -> text
     )(ProjectFormData.apply)(ProjectFormData.unapply)
   )
 
@@ -24,7 +24,7 @@ class ProjectController @Inject() (projectDao: ProjectDao) extends Controller {
   }
 
   def showCreateProjectFormView = Action {
-    Ok(views.html.createproject())
+    Ok(views.html.createproject(projectForm))
   }
 
   def insertProject = Action.async { implicit request =>

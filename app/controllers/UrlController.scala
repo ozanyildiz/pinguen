@@ -9,20 +9,20 @@ import dao._
 import models._
 import play.api.data._
 import play.api.data.Forms._
+import play.api.i18n.I18nSupport
+import play.api.i18n.MessagesApi
 import play.api.libs.ws.{WSResponse, WSClient}
 import play.api.mvc.{Action, Controller}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 
-class UrlController @Inject() (urlDao: UrlDao, urlRecordDao: UrlRecordDao, ws: WSClient) extends Controller {
-
-  case class UrlFormData(name: String, address: String)
+class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, urlRecordDao: UrlRecordDao, ws: WSClient) extends Controller with I18nSupport {
 
   val urlForm = Form(
     mapping(
-      "name" -> text(),
-      "address" -> text()
+      "name" -> text,
+      "address" -> text
     )(UrlFormData.apply)(UrlFormData.unapply)
   )
 
@@ -31,7 +31,7 @@ class UrlController @Inject() (urlDao: UrlDao, urlRecordDao: UrlRecordDao, ws: W
   }
 
   def showCreateUrlFormView(projectId: Long) = Action {
-    Ok(views.html.createurl(projectId))
+    Ok(views.html.createurl(urlForm, projectId))
   }
 
   def insertUrl(projectId: Long) = Action.async { implicit request =>

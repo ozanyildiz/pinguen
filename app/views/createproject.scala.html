@@ -1,7 +1,9 @@
+@(projectForm: Form[ProjectFormData])(implicit messages: Messages)
+
 @main("Add new project") {
-<a class="btn btn-primary" role="button" href="@{routes.ProjectController.listProjects}">Back</a>
-<form action="/projects/create" method="POST">
-    <input name="name" type="text" placeholder="Enter project name" required />
-    <input type="submit"/>
-</form>
+    <a class="btn btn-primary" role="button" href="@{routes.ProjectController.listProjects}">Back</a>
+    @helper.form(action = routes.ProjectController.insertProject()) {
+        @helper.inputText(projectForm("name"))
+        <input type="submit"/>
+    }
 }
