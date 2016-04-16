@@ -6,8 +6,8 @@ case class Project(id: Long, name: String)
 
 case class ProjectFormData(name: String)
 
-case class Url(id: Long, name: String, address: String, projectId: Long)
+case class Url(id: Long, name: String, address: String, projectId: Long, httpMethod: String)
 
-case class UrlFormData(name: String, address: String)
+case class UrlFormData(name: String, address: String, httpMethod: String)
 
 case class UrlRecord(id: Long, urlId: Long, createdAt: Timestamp, responseTime: Float, status: String)

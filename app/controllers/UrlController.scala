@@ -22,7 +22,8 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
   val urlForm = Form(
     mapping(
       "name" -> text,
-      "address" -> text
+      "address" -> text,
+      "httpMethod" -> text
     )(UrlFormData.apply)(UrlFormData.unapply)
   )
 
@@ -36,7 +37,7 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
 
   def insertUrl(projectId: Long) = Action.async { implicit request =>
     val urlFormData: UrlFormData = urlForm.bindFromRequest.get
-    val url = Url(0, urlFormData.name, urlFormData.address, projectId)
+    val url = Url(0, urlFormData.name, urlFormData.address, projectId, urlFormData.httpMethod)
     urlDao.insert(url).map(_ => Redirect(routes.UrlController.listUrls(projectId)))
   }
 

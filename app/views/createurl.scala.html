@@ -3,6 +3,7 @@
 @main("Add new url") {
     <a class="btn btn-primary" role="button" href="@{routes.UrlController.listUrls(projectId)}">Back</a>
     @helper.form(action = routes.UrlController.insertUrl(projectId)) {
+        @helper.select(urlForm("httpMethod"), options = List(("GET", "GET"), ("POST", "POST")))
         @helper.inputText(urlForm("name"))
         @helper.inputText(urlForm("address"))
         <input type="submit"/>

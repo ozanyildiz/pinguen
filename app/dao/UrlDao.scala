@@ -31,8 +31,9 @@ class UrlDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) e
     def name = column[String]("NAME")
     def address = column[String]("ADDRESS")
     def projectId = column[Long]("PROJECT_ID")
+    def httpMethod = column[String]("HTTP_METHOD")
 
-    def * = (id, name, address, projectId) <>(Url.tupled, Url.unapply _)
+    def * = (id, name, address, projectId, httpMethod) <>(Url.tupled, Url.unapply _)
   }
 
 }
