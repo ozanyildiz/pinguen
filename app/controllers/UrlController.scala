@@ -49,7 +49,8 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
       .execute(url.httpMethod).map {
         response =>
           val end = System.nanoTime()
-          UrlRecord(0, url.id, Timestamp.valueOf(LocalDateTime.now()), (end - start) / 1000 / 1000, response.statusText)
+          UrlRecord(0, url.id, Timestamp.valueOf(LocalDateTime.now()),
+            (end - start) / 1000 / 1000, response.status + " - " + response.statusText)
     }
   }
 
