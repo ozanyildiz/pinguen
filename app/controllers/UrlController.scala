@@ -21,8 +21,8 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
 
   val urlForm = Form(
     mapping(
-      "name" -> text,
-      "address" -> text,
+      "name" -> nonEmptyText,
+      "address" -> nonEmptyText,
       "httpMethod" -> text,
       "body" -> text
     )(UrlFormData.apply)(UrlFormData.unapply)
@@ -36,10 +36,17 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
     Ok(views.html.createurl(urlForm, projectId))
   }
 
-  def insertUrl(projectId: Long) = Action.async { implicit request =>
-    val urlFormData: UrlFormData = urlForm.bindFromRequest.get
-    val url = Url(0, urlFormData.name, urlFormData.address, projectId, urlFormData.httpMethod, urlFormData.body)
-    urlDao.insert(url).map(_ => Redirect(routes.UrlController.listUrls(projectId)))
+  def insertUrl(projectId: Long) = Action { implicit request =>
+    urlForm.bindFromRequest().fold(
+      formWithErrors => {
+        BadRequest(views.html.createurl(formWithErrors, projectId))
+      },
+      urlFormData => {
+        urlDao.insert(Url(0, urlFormData.name, urlFormData.address,
+          projectId, urlFormData.httpMethod, urlFormData.body))
+        Redirect(routes.UrlController.listUrls(projectId))
+      }
+    )
   }
 
   private def getData(url: Url): Future[UrlRecord] = {

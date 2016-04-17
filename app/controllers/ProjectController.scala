@@ -15,7 +15,7 @@ class ProjectController @Inject() (val messagesApi: MessagesApi, projectDao: Pro
 
   val projectForm = Form(
     mapping(
-      "name" -> text
+      "name" -> nonEmptyText
     )(ProjectFormData.apply)(ProjectFormData.unapply)
   )
 
@@ -27,10 +27,16 @@ class ProjectController @Inject() (val messagesApi: MessagesApi, projectDao: Pro
     Ok(views.html.createproject(projectForm))
   }
 
-  def insertProject = Action.async { implicit request =>
-    val projectFormData: ProjectFormData = projectForm.bindFromRequest.get
-    val project = Project(0, projectFormData.name)
-    projectDao.insert(project).map(_ => Redirect(routes.ProjectController.listProjects))
+  def insertProject = Action { implicit request =>
+    projectForm.bindFromRequest().fold(
+      formWithErrors => {
+        BadRequest(views.html.createproject(formWithErrors))
+      },
+      projectFormData => {
+        projectDao.insert(Project(0, projectFormData.name))
+        Redirect(routes.ProjectController.listProjects)
+      }
+    )
   }
 
   def deleteProject(projectId: Long) = Action.async { implicit request =>

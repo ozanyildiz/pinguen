@@ -1,20 +1,20 @@
 @(projectId: Long, urls: Seq[Url])
 
-@main("Urls") {
+@main("URLs") {
 <a class="btn btn-primary" role="button" href="@{routes.ProjectController.listProjects}">Back</a>
-<a class="btn btn-primary" role="button" href="@{routes.UrlController.showCreateUrlFormView(projectId)}">Add new url</a>
-<a class="btn btn-primary" role="button" href="@{routes.UrlController.fetchUrls(projectId)}">Fetch urls</a>
+<a class="btn btn-primary" role="button" href="@{routes.UrlController.showCreateUrlFormView(projectId)}">Add New URL</a>
+<a class="btn btn-primary" role="button" href="@{routes.UrlController.fetchUrls(projectId)}">Fetch URLs</a>
 <table class="table table-hover">
     <tr>
-        <td>HTTP Method</td>
         <td>Name</td>
+        <td>HTTP Method</td>
         <td>Address</td>
         <td>Delete</td>
     </tr>
     @for(url <- urls) {
     <tr>
-        <td>@url.httpMethod</td>
         <td><a href="@{routes.UrlController.listUrlRecords(projectId, url.id)}">@url.name</a></td>
+        <td>@url.httpMethod</td>
         <td>@url.address</td>
         <td><a href="@{routes.UrlController.deleteUrl(projectId, url.id)}">X</a></td>
     </tr>
