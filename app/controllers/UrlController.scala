@@ -38,14 +38,14 @@ class UrlController @Inject() (val messagesApi: MessagesApi, urlDao: UrlDao, url
 
   def insertUrl(projectId: Long) = Action.async { implicit request =>
     val urlFormData: UrlFormData = urlForm.bindFromRequest.get
-    val url = Url(0, urlFormData.name, urlFormData.address, projectId, urlFormData.httpMethod, null)
+    val url = Url(0, urlFormData.name, urlFormData.address, projectId, urlFormData.httpMethod, urlFormData.body)
     urlDao.insert(url).map(_ => Redirect(routes.UrlController.listUrls(projectId)))
   }
 
   private def getData(url: Url): Future[UrlRecord] = {
     val start = System.nanoTime()
     ws.url(url.address)
-      .withBody(if (url.body.isEmpty) Json.parse("{}") else Json.parse(url.body.get))
+      .withBody(if (url.body.isEmpty) Json.parse("{}") else Json.parse(url.body))
       .execute(url.httpMethod).map {
         response =>
           val end = System.nanoTime()

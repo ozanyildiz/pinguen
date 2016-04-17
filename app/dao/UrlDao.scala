@@ -34,7 +34,7 @@ class UrlDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) e
     def httpMethod = column[String]("HTTP_METHOD")
     def body = column[String]("BODY")
 
-    def * = (id, name, address, projectId, httpMethod, body.?) <>(Url.tupled, Url.unapply _)
+    def * = (id, name, address, projectId, httpMethod, body) <>(Url.tupled, Url.unapply _)
   }
 
 }
