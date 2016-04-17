@@ -9,8 +9,8 @@ import slick.driver.JdbcProfile
 
 import scala.concurrent.Future
 
-class UrlDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends ProjectsComponent
-  with HasDatabaseConfigProvider[JdbcProfile] {
+class UrlDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
+  extends HasDatabaseConfigProvider[JdbcProfile] {
 
   import driver.api._
 
